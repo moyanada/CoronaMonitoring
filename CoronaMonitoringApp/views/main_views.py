@@ -3,7 +3,7 @@ from flask import Flask, request, render_template, redirect
 from flask.helpers import url_for
 
 from CoronaMonitoringApp.dao import coronaDAO
-from CoronaMonitoringApp.models import TBL_TEMP_004
+from CoronaMonitoringApp.models import TBL_TEMP_CORONA
 from CoronaMonitoringApp.service import coronaService
 
 bp = Blueprint('main', __name__, url_prefix='/')

@@ -1,6 +1,8 @@
 
 
 def doSaveCoronaData(pStartDt, pEndDt):
+    
+
     return ''
 
 def getPublicDataCorona(pStartDt, pEndDt):
@@ -17,7 +19,7 @@ def getPublicDataCorona(pStartDt, pEndDt):
 
     response = requests.get(url, params=paramDict)
     soup = BeautifulSoup(response.content, 'lxml-xml')
-
+    row = []
     if response.status_code == 200:
         resResultCode = soup.find('resultCode').getText()
         resResultMsg = soup.find('resultMsg').getText()
@@ -27,6 +29,7 @@ def getPublicDataCorona(pStartDt, pEndDt):
             if len(resXmlItem) > 0:
                 print("파실할 데이터 갯수 [{}]".format(len(resXmlItem)))
                 for item in resXmlItem:
+                    print(item)
                     print(item.find('accDefRate').getText())
             else :
                 print("파싱할 데이터가 없습니다")
