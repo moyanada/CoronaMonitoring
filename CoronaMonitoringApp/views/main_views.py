@@ -1,10 +1,17 @@
 from flask import Blueprint
 
+from CoronaMonitoringApp.dao import coronaDAO
+from CoronaMonitoringApp.models import TBL_TEMP_004
 
 bp = Blueprint('main', __name__, url_prefix='/')
 
 @bp.route('/hello')
 def hello_pybo():
+    coronaList = coronaDAO.schCoronaDataAll();
+
+    for coronaData in coronaList:
+        print(coronaData.col1)
+
     return 'hellow jun'
 
 @bp.route('/')
