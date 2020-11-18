@@ -1,9 +1,20 @@
-
+from CoronaMonitoringApp.dao import coronaDAO
+from CoronaMonitoringApp.models import TBL_TEMP_CORONA
 
 def doSaveCoronaData(pStartDt, pEndDt):
-    
+    coronaDataList = getPublicDataCorona(pStartDt=pStartDt, pEndDt=pEndDt)    
 
-    return ''
+    for coronaData in coronaDataList:        
+        cnt = coronaDAO.schExistsData(coronaData.state_dt)
+        if cnt > 0:
+            print("[{}] 데이터가 이미 있습니다".format(coronaData.state_dt))
+            pass
+        else :
+            coronaDAO.insertCoronaData(coronaData)
+            print("[{}] 데이터를 저장하였습니다.".format(coronaData.state_dt))
+
+
+
 
 def getPublicDataCorona(pStartDt, pEndDt):
     import requests
@@ -28,15 +39,28 @@ def getPublicDataCorona(pStartDt, pEndDt):
         if resResultCode == '00':
             if len(resXmlItem) > 0:
                 print("파실할 데이터 갯수 [{}]".format(len(resXmlItem)))
-                for item in resXmlItem:
-                    print(item)
-                    print(item.find('accDefRate').getText())
+                for item in resXmlItem:                    
+                    t = TBL_TEMP_CORONA(temp_seq=item.find('seq').getText()
+                                        ,state_dt=item.find('stateDt').getText()
+                                        ,decide_cnt=item.find('decideCnt').getText()
+                                        ,clear_cnt=item.find('clearCnt').getText()
+                                        ,exam_cnt=item.find('examCnt').getText()
+                                        ,death_cnt=item.find('deathCnt').getText()
+                                        ,care_cnt=item.find('careCnt').getText()
+                                        ,resutl_neg_cnt=item.find('resutlNegCnt').getText()
+                                        ,acc_exam_cnt=item.find('accExamCnt').getText()
+                                        ,acc_exam_comp_cnt=item.find('accExamCompCnt').getText()
+                                        ,acc_def_rate=item.find('accDefRate').getText())
+                    row.append(t);
+
             else :
                 print("파싱할 데이터가 없습니다")
         else :
             print("response Error Code[{}] Msg[{}]".format(resResultCode, resResultMsg))        
     else :
         print("http error {}".format(response.status_code))
+
+    return row
 
     
     

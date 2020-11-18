@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-3">    
+    <table class="table">
+        <thead>
+        <tr class="thead-dark">
+            <th>번호</th>
+            <th>기준일</th>
+            <th>확진자 수</th>
+            <th>격리해제 수</th>
+            <th>검사진행 수</th>            
+            <th>사망자 수</th>
+            <th>치료중 환자 수</th>
+            <th>결과 음성 수</th>
+            <th>누적 검사 수</th>
+            <th>누적 검사 완료 수</th>
+            <th>누적 환진률</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if coronaDataList %}
+            {% for coronaData in coronaDataList %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ coronaData.state_dt }}</td>
+                <td>{{ coronaData.decide_cnt }}</td>
+                <td>{{ coronaData.clear_cnt }}</td>
+                <td>{{ coronaData.exam_cnt }}</td>
+                <td>{{ coronaData.death_cnt }}</td>
+                <td>{{ coronaData.care_cnt }}</td>
+                <td>{{ coronaData.resutl_neg_cnt }}</td>
+                <td>{{ coronaData.acc_exam_cnt }}</td>
+                <td>{{ coronaData.acc_exam_comp_cnt }}</td>
+                <td>{{ coronaData.acc_def_rate }}</td>                
+            </tr>
+            {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="11">데이터가 없습니다.</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}

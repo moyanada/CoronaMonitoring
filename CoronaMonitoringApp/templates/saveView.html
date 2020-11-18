@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-3">    
+    <form action="{{ url_for('main.saveCorona') }}" method="post" class="my-3">
+        <div class="row">
+            <div class="col-6 col-sm-3">
+                적재시작일:<input type="text" name="startDt" id="startDt" class="form-control"></input>
+            </div>
+            <div class="col-6 col-sm-3">
+                적재종료일:<input type="text" name="endDt" id="endDt" class="form-control"></input>
+            </div>            
+        </div>    
+        <br>
+        <input type="submit" value="답변등록" class="btn btn-primary">
+    </form>    
+</div>
+{% endblock %}

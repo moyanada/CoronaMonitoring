@@ -8,69 +8,43 @@ from CoronaMonitoringApp.service import coronaService
 
 bp = Blueprint('main', __name__, url_prefix='/')
 
-@bp.route('/hello')
-def hello_pybo():
-    coronaList = coronaDAO.schCoronaDataAll();
-
-    for coronaData in coronaList:
-        print(coronaData.col1)
-
-    coronaService.getPublicDataCorona("20200301", "20200302");
-
-    return 'hellow jun'
-
 @bp.route('/')
 def index():
     return render_template("index.html");
 
-@bp.route('/dbtest')
-def dbtest():
-    # import cx_Oracle
-    # import os
-    # os.putenv('NLS_LANG', '.UTF8')
+@bp.route('/saveView')
+def saveView():
+    return render_template("saveView.html");
 
-    # LOCATION=r"C:\03_workspace\07_oracle\instantclient_19_8"
-    # os.environ["PATH"]=LOCATION+";"+os.environ["PATH"]
-    
-    # dsn=cx_Oracle.makedsn("10.40.62.167",14766,"SGIFTOD")
-    # db=cx_Oracle.connect("BKOMASTER", "BKOMASTER66S#", dsn)
+@bp.route('/coronaGraph')
+def coronaGraph():
+    coronaList = coronaDAO.schCoronaDataAll();
 
-    # cursor=db.cursor()
-    # cursor.execute("select cd_nm from cd_pub")
-    # #cursor.fetchall()
+    # for coronaData in coronaList:
+    #     print(coronaData.temp_seq)
 
-    # for name in cursor:
-    #     print("cd_nm : {}".format(name))
+    return render_template("coronaGraph.html", coronaDataList=coronaList)
 
+@bp.route('/saveCorona', methods=['POST'])
+def saveCorona():
+    startDt = request.form['startDt']
+    endDt = request.form['endDt']
 
-    # cursor.close()
-    # db.close()
+    validate(startDt)
+    validate(endDt)
 
+    if startDt > endDt:
+        print("종료일이 시작일보다 이전 일 수 없습니다.")
+        return render_template("saveView.html");
 
-    return ""
+    coronaService.doSaveCoronaData(startDt, endDt);
 
-@bp.route('dbtest2')
-def dbtest2():
-    # from sqlalchemy import create_engine
-    # import pandas as pd
-    # import cx_Oracle
-    # import os
-    # os.putenv('NLS_LANG', '.UTF8')
+    return "<script>alert('완료'); location.href='http://127.0.0.1:5000';</script>"
 
-    # LOCATION=r"C:\03_workspace\07_oracle\instantclient_19_8"
-    # os.environ["PATH"]=LOCATION+";"+os.environ["PATH"]
+def validate(date_text):
+    import datetime
 
-    # user='BKOMASTER'
-    # pwd='BKOMASTER66S#'
-    # dsn=cx_Oracle.makedsn('10.40.62.167',14766,"SGIFTOD")
-    # ora_engine=create_engine(f'oracle+cx_oracle://{user}:{pwd}@{dsn}', echo=True)
-    # ora_engine.connect()
-
-    # outpt = ora_engine.execute("SELECT CD_NM FROM CD_PUB")
-    # df = pd.DataFrame(outpt.fetchall())
-    # df.columns = outpt.keys()
-    # print(df.head())
-
-    #ora_engine.close();
-
-    return ""
+    try:
+        datetime.datetime.strptime(date_text, '%Y%m%d')
+    except ValueError:
+        raise ValueError("날짜 형식에 맞지 않습니다.")

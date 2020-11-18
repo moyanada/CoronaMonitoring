@@ -12,4 +12,4 @@ class TBL_TEMP_CORONA(db.Model):
     resutl_neg_cnt=db.Column(db.Integer, nullable=True)
     acc_exam_cnt=db.Column(db.Integer, nullable=True)
     acc_exam_comp_cnt=db.Column(db.Integer, nullable=True)
-    acc_def_rate=db.Column(db.Integer, nullable=True)
+    acc_def_rate=db.Column(db.Float, nullable=True)
