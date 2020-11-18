@@ -1,7 +1,10 @@
 from flask import Blueprint
+from flask import Flask, request, render_template, redirect
+from flask.helpers import url_for
 
 from CoronaMonitoringApp.dao import coronaDAO
 from CoronaMonitoringApp.models import TBL_TEMP_004
+from CoronaMonitoringApp.service import coronaService
 
 bp = Blueprint('main', __name__, url_prefix='/')
 
@@ -12,11 +15,13 @@ def hello_pybo():
     for coronaData in coronaList:
         print(coronaData.col1)
 
+    coronaService.getPublicDataCorona("20200301", "20200302");
+
     return 'hellow jun'
 
 @bp.route('/')
 def index():
-    return 'index page'
+    return render_template("index.html");
 
 @bp.route('/dbtest')
 def dbtest():
