@@ -39,7 +39,12 @@ def saveCorona():
 
     coronaService.doSaveCoronaData(startDt, endDt);
 
-    return "<script>alert('완료'); location.href='http://127.0.0.1:5000';</script>"
+    return "<script>alert('데이터 적재 완료'); location.href='http://127.0.0.1:5000';</script>"
+
+@bp.route('/saveGraphImg', methods=['POST', 'GET'])
+def saveGraphImg():
+    coronaService.doSaveCoronaGraphImg();
+    return "<script>alert('그래프 생성 완료'); location.href='http://127.0.0.1:5000';</script>"    
 
 def validate(date_text):
     import datetime

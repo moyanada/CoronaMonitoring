@@ -63,4 +63,45 @@ def getPublicDataCorona(pStartDt, pEndDt):
     return row
 
     
+def doSaveCoronaGraphImg():    
+    import matplotlib as mpl
+    from matplotlib import font_manager as fm
+    from matplotlib import pyplot as plt
+    import base64
+    import io
+
+    # 그래프에서 마이너스 폰트 깨지는 문제에 대한 대처
+    mpl.rcParams['axes.unicode_minus'] = False
+
+    coronaList = coronaDAO.schCoronaDataAll();
+    days = []
+    decideCnt = []
+    clearCnt = []
+    examCnt = []
+    deathCnt = []
+    careCnt = []
+    for coronaData in coronaList:
+        days.append(str(coronaData.state_dt))
+        decideCnt.append(coronaData.decide_cnt)
+        clearCnt.append(coronaData.clear_cnt)
+        examCnt.append(coronaData.exam_cnt)
+        deathCnt.append(coronaData.death_cnt)
+        careCnt.append(coronaData.care_cnt)
+
+    fig = plt.figure()
+
+    plt.plot(days, decideCnt, marker='o')
+    plt.plot(days, clearCnt, marker='o')
+    plt.plot(days, examCnt, marker='o')
+    plt.plot(days, deathCnt, marker='o')
+    plt.plot(days, careCnt, marker='o')
     
+    plt.legend(['확진자수', '격리해제수', '검사진행수', '사망자수', '치료중환자수'])
+
+    plt.xlabel('날짜')
+    plt.ylabel('숫자(명)')
+    plt.title('코로나 현황')
+    
+    # plt.show()
+
+    fig.savefig('static/images/coronaGraph.png', format='png')

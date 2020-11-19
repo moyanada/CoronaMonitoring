@@ -11,7 +11,10 @@
             </div>            
         </div>    
         <br>
-        <input type="submit" value="답변등록" class="btn btn-primary">
-    </form>    
+        <input type="submit" value="코로나데이터적재" class="btn btn-primary">        
+    </form>
+    <form action="{{ url_for('main.saveGraphImg') }}" method="post" class="my-3">        
+        <input type="submit" value="코로나그래프생성" class="btn btn-primary">        
+    </form>
 </div>
 {% endblock %}

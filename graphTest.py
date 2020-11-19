@@ -8,6 +8,7 @@ import io
 
 # 그래프에서 마이너스 폰트 깨지는 문제에 대한 대처
 mpl.rcParams['axes.unicode_minus'] = False
+plt.rc('font', family='NanumGothic')
 
 days = ['20200315', '20200314', '20200313', '20200312', '20200311', '20200310']
 
