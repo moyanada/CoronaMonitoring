@@ -24,8 +24,8 @@ def getPublicDataCorona(pStartDt, pEndDt):
     paramDict = {        
         "pageNo" : "1"
         ,"numOfRows" : "10"
-        ,"startCreateDt" : "20200310"
-        ,"endCreateDt" : "20200315"
+        ,"startCreateDt" : pStartDt
+        ,"endCreateDt" : pEndDt
     }
 
     response = requests.get(url, params=paramDict)

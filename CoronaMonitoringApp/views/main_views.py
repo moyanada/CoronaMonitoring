@@ -18,7 +18,7 @@ def saveView():
 
 @bp.route('/coronaGraph')
 def coronaGraph():
-    coronaList = coronaDAO.schCoronaDataAll();
+    coronaList = coronaDAO.schCoronaDataAll();   
 
     # for coronaData in coronaList:
     #     print(coronaData.temp_seq)
